@@ -1,6 +1,7 @@
 package com.example.vizbuzz.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -8,16 +9,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.example.vizbuzz.R
 import com.example.vizbuzz.models.Podcast
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val PODCAST_NAME = "podname"
-private const val PODCAST_TRANSCRIPT = "podtrans"
-
 /**
- * A simple [Fragment] subclass.
- * Use the [PodcastDetailsFragment.newInstance] factory method to
- * create an instance of this fragment.
+ * Fragment to show details for a podcast including transcript.
  */
 class PodcastDetailsFragment : Fragment() {
     // TODO: Rename and change types of parameters
@@ -25,12 +18,16 @@ class PodcastDetailsFragment : Fragment() {
     private var podcastTranscript: String? = null
     private var title: TextView? = null
     private var transcript: TextView? = null
+    // TODO this will probably be a different structure
+    private var transcriptColor: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            podcastName = it.getString(PODCAST_NAME)
-            podcastTranscript = it.getString(PODCAST_TRANSCRIPT)
+            podcastName = it.getString(KEY_NAME)
+            podcastTranscript = it.getString(KEY_TRANSCRIPT)
+            transcriptColor = it.getString(KEY_COLOR)
+            Log.i(TAG, "Color $transcriptColor")
         }
     }
 
@@ -49,24 +46,26 @@ class PodcastDetailsFragment : Fragment() {
         transcript = view.findViewById(R.id.transcript)
         title?.text = podcastName
         transcript?.text = podcastTranscript
+        // TODO parse color
+        if (transcriptColor.equals("red")) {
+            transcript?.setTextColor(resources.getColor(R.color.red))
+        } else if (transcriptColor.equals("green")) {
+            transcript?.setTextColor(resources.getColor(R.color.green))
+        }
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment PodcastDetailsFragment.
-         */
-        // TODO: Rename and change types and number of parameters
+        private const val KEY_NAME = "podname"
+        private const val KEY_TRANSCRIPT = "podtrans"
+        private const val KEY_COLOR = "color"
+        private const val TAG = "PodcastDetailsFragment"
         @JvmStatic
         fun newInstance(podcast: Podcast) =
             PodcastDetailsFragment().apply {
                 arguments = Bundle().apply {
-                    putString(PODCAST_NAME, podcast.name)
-                    putString(PODCAST_TRANSCRIPT, podcast.transcript)
+                    putString(KEY_NAME, podcast.name)
+                    putString(KEY_TRANSCRIPT, podcast.transcript)
+                    putString(KEY_COLOR, podcast.color)
                 }
             }
     }
