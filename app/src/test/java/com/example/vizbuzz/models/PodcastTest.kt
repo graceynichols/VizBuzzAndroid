@@ -10,7 +10,7 @@ class PodcastTest {
     private val TEST_KEY_NAME = "name"
     private val TEST_KEY_ALL_TEXT = "all_text"
     private val TEST_KEY_COLOR = "color"
-    private val test_json = JSONArray("[name:hello1,alias:world1,color:green,all_text:Hello1 transcript},{name:hello2,alias:world2,color:red,all_text:Hello2 transcript}]")
+    private val test_json = JSONArray("[{name:hello1,alias:world1,color:green,all_text:Hello1 transcript},{name:hello2,alias:world2,color:red,all_text:Hello2 transcript}]")
     private val jsonName1 = "hello1"
     @Test
     fun attributes_test() {
